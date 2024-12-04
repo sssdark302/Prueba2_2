@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,10 +25,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         fabAddEvent = findViewById(R.id.fab_add_event)
 
-        // Configurar RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = EventoAdapter(eventoList) { evento ->
-            // Aquí puedes implementar la acción de edición si es necesario
+        adapter = EventoAdapter(this, eventoList) { evento ->
+            // Acción personalizada para editar (si es necesario)
             Toast.makeText(this, "Editar evento: ${evento.nombre}", Toast.LENGTH_SHORT).show()
         }
         recyclerView.adapter = adapter
@@ -43,21 +43,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadEventos() {
-        dbHelper.getEventos { eventos ->
-            eventoList.clear()
-            eventos.forEach { eventoData ->
-                val evento = Evento(
-                    id = eventoData["id"] as? String,
-                    nombre = eventoData["nombre"] as String,
-                    descripcion = eventoData["descripcion"] as String,
-                    direccion = eventoData["direccion"] as String,
-                    precio = (eventoData["precio"] as Number).toDouble(),
-                    fecha = eventoData["fecha"] as String,
-                    aforo = (eventoData["aforo"] as Number).toInt()
-                )
-                eventoList.add(evento)
+        FirebaseDatabase.getInstance().getReference("eventos")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                eventoList.clear()
+                snapshot.children.forEach { child ->
+                    val evento = child.getValue(Evento::class.java)
+                    evento?.id = child.key // Establecer el ID desde la clave de Firebase
+                    if (evento != null) {
+                        eventoList.add(evento)
+                    }
+                }
+                adapter.notifyDataSetChanged()
             }
-            adapter.notifyDataSetChanged()
-        }
+            .addOnFailureListener {
+                Toast.makeText(this, "Error al cargar eventos", Toast.LENGTH_SHORT).show()
+            }
+    }
+    override fun onResume() {
+        super.onResume()
+        loadEventos()
     }
 }
+

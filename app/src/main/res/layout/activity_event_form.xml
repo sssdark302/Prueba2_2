@@ -1,5 +1,4 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -13,56 +12,48 @@
             android:id="@+id/edtNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:inputType="text" />
+            android:hint="Nombre" />
 
         <EditText
             android:id="@+id/edtDescripcion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Descripción"
-            android:inputType="text" />
+            android:hint="Descripción" />
 
         <EditText
             android:id="@+id/edtDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Dirección"
-            android:inputType="text" />
+            android:hint="Dirección" />
 
         <EditText
             android:id="@+id/edtPrecio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Precio"
-            android:inputType="numberDecimal" />
+            android:hint="Precio" />
 
         <EditText
             android:id="@+id/edtFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Fecha (dd/MM/yyyy)"
-            android:inputType="date" />
+            android:hint="Fecha (dd/MM/yyyy)" />
 
         <EditText
             android:id="@+id/edtAforo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Aforo"
-            android:inputType="number" />
+            android:hint="Aforo" />
 
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="Guardar" />
 
         <Button
             android:id="@+id/btnCerrar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="Cerrar" />
     </LinearLayout>
 </ScrollView>
