@@ -3,6 +3,8 @@ package com.example.prueba2_2
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
@@ -13,18 +15,25 @@ class EventoAdapter(
 ) : RecyclerView.Adapter<EventoAdapter.EventoViewHolder>() {
 
     inner class EventoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        private val txtNombre = itemView.findViewById<TextView>(R.id.txtNombre)
+        private val txtDescripcion = itemView.findViewById<TextView>(R.id.txtDescripcion)
+        private val txtPrecio = itemView.findViewById<TextView>(R.id.txtPrecio)
+        private val btnEdit = itemView.findViewById<Button>(R.id.btnEdit)
+        private val btnDelete = itemView.findViewById<Button>(R.id.btnDelete)
+
         fun bind(evento: Evento) {
-            itemView.txtNombre.text = evento.nombre
-            itemView.txtDescripcion.text = evento.descripcion
-            itemView.txtPrecio.text = "${evento.precio} €"
+            txtNombre.text = evento.nombre
+            txtDescripcion.text = evento.descripcion
+            txtPrecio.text = "${evento.precio} €"
 
             // Botón Editar
-            itemView.btnEdit.setOnClickListener {
-                onEdit(evento) // Llama a la función de edición
+            btnEdit.setOnClickListener {
+                onEdit(evento)
             }
 
             // Botón Eliminar
-            itemView.btnDelete.setOnClickListener {
+            btnDelete.setOnClickListener {
                 deleteEvento(evento)
             }
         }
@@ -44,6 +53,7 @@ class EventoAdapter(
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventoViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_evento, parent, false)
